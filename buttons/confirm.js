@@ -57,16 +57,12 @@ module.exports = {
         await userTarget.update({ task_id: newTargetTask.task_id, target_id: userNewTarget.user_id, count: userTarget.count })
         await userTarget.save()
         await session.destroy()
+
         const newUserTargetObject = await client.users.fetch(userNewTarget.user_id)
+        
         const kill = new ButtonBuilder().setCustomId(`kill-${user.guild_id}`).setLabel('Kill').setStyle(ButtonStyle.Danger)
         const row = new ActionRowBuilder().addComponents(kill)
-        // const lastMessageUser = await userObject.dmChannel.messages.fetch({ limit: 1 })
-        // lastMessageUser.delete()
 
-        // const lastMessages = await interaction.channel.messages.fetch({ limit: 2 })
-        // lastMessages.forEach(message => {
-        //     message.delete()
-        // });
         const messageUser = await Messages.findOne({ where: { user_id: interaction.user.id, message_type: 'confirm' } })
         const messageTarget = await Messages.findOne({ where: { user_id: userId, message_type: 'kill' }})
 
@@ -81,11 +77,6 @@ module.exports = {
         await Messages.update({ message_id: newMessageTarget.id }, { where: { user_id: messageTarget.user_id, message_type: 'kill' } })
         await Messages.destroy({ where: { user_id: messageUser.user_id, message_type: 'confirm' }})
         await interaction.reply({content: "Confirm send", flags: MessageFlags.Ephemeral})
-
-        // const filter = i => i.customId === "confirm"
-        // const collector = interaction.channel.createMessageComponentCollector({ filter, time: 86400000 })
-        
-
         
     }
 }

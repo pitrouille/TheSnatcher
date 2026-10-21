@@ -92,7 +92,6 @@ module.exports = {
                 const channelTarget = await client.channels.fetch(targetConfirmMessage.channel_id)
                 const lastMessageTarget = await channelTarget.messages.fetch(targetConfirmMessage.message_id)
                 lastMessageTarget.delete()
-                // deleteMessage(userObject, userMessage.message_id, userMessage.channel_id)
 
                 // Modification + suppression Message
                 await Messages.create({guild_id: guildId, user_id: targetObject.id, channel_id: newMessageTarget.channelId, message_id: newMessageTarget.id, message_type: 'kill' })
